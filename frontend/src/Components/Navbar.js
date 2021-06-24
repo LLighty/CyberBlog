@@ -9,6 +9,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import About from "../Pages/About";
 import Contact from "../Pages/Contact";
 import Home from "../Pages/Home";
+import Sidebar from "./Sidebar";
+import "./Navbar.css";
 
 class Navbar extends Component {
     render() {
@@ -21,31 +23,37 @@ class Navbar extends Component {
                   <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarText">
-                  <ul class="navbar-nav mr-auto">
-                  <li class="nav-item">
-                      <Link class="nav-link" to="/">Home</Link>
+                  <ul class="navbar-nav">
+                    <li>
+                      <Link class="nav-item nav-link" to="/">Home</Link>
                     </li>
-                    <li class="nav-item">
-                      <Link class="nav-link" to="/about">About</Link>
+                    <li>
+                      <Link class="nav-item nav-link" to="/about">About</Link>
                     </li>
-                    <li class="nav-item">
-                      <Link class="nav-link" to="/contact">Contact</Link>
+                    <li>
+                      <Link class="nav-item nav-link" to="/contact">Contact</Link>
                     </li>
                   </ul>
                 </div>
               </nav>
-
-              <Switch>
-                <Route path="/about">
-                  <About />
-                </Route>
-                <Route path="/contact">
-                  <Contact />
-                </Route>
-                <Route path="/">
-                  <Home />
-                </Route>
-              </Switch>
+              <div id="container">
+                <div id="left">
+                  <Sidebar />
+                </div>
+                <div id="right">
+                  <Switch>
+                    <Route path="/about">
+                      <About />
+                    </Route>
+                    <Route path="/contact">
+                      <Contact />
+                    </Route>
+                    <Route path="/">
+                      <Home />
+                    </Route>
+                  </Switch>
+                </div>
+              </div>
             </div>
           </Router>
         );
