@@ -7,8 +7,8 @@ class Sidebar extends Component {
             <div class="side-bar">
                 <div>
                     <ul>
-                        <li>Menu item..</li>
-                        <li>Menu item..</li>
+                        <li>Web Exploitation</li>
+                        <li>Reverse Engineering</li>
                     </ul>
                 </div>
             </div>
