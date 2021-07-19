@@ -2,6 +2,10 @@ import React, { Component } from "react";
 
 import axios from "axios";
 
+import {
+  Link,
+} from "react-router-dom";
+
 const articles = [
   {
     title: "test", 
@@ -27,8 +31,7 @@ class Home extends Component {
     this.loadArticles();
   }
 
-  async loadArticles()
-  {
+  async loadArticles() {
     try{
       const response = await axios.get("http://localhost:8000/api/articles/");
       const status = response.status;
@@ -47,13 +50,19 @@ class Home extends Component {
 
   renderArticles = () => {
     const newArticles = this.state.articleList;
-    console.log("test");
-    console.log(JSON.stringify(newArticles));
+    //console.log(JSON.stringify(newArticles));
     return newArticles.map(item => (
       <li 
         className="list-group-item d-flex justify-content-between align-items-center"
       >
+        <Link
+          key={item.id}
+          to={{
+            pathname: `/articles/${item.id}`,
+          }}
+        >
         {item.title}
+        </Link>
       </li>
     ));
   };
@@ -61,8 +70,7 @@ class Home extends Component {
   render() {
     return (
       <div>
-        Home
-        {this.renderArticles}
+        {this.renderArticles()}
       </div>
     );
   }

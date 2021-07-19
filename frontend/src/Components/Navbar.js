@@ -10,6 +10,7 @@ import About from "../Pages/About";
 import Contact from "../Pages/Contact";
 import Home from "../Pages/Home";
 import Sidebar from "./Sidebar";
+import Article from "../Pages/Article";
 import "./Navbar.css";
 
 class Navbar extends Component {
@@ -48,7 +49,8 @@ class Navbar extends Component {
                     <Route path="/contact">
                       <Contact />
                     </Route>
-                    <Route path="/">
+                    <Route path="/articles/:articleid" component={Article} />
+                    <Route path="/"> 
                       <Home />
                     </Route>
                   </Switch>

@@ -19,11 +19,11 @@ from django.urls import path, include
 from rest_framework import routers
 from articles import views
 
-router = routers.DefaultRouter()
-router.register(r'articles', views.PostView, 'article')
+#router = routers.DefaultRouter()
+#router.register(r'articles', views.PostView, 'article')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
-    path('api/', include(router.urls)),
+    path('api/', include('articles.urls')),
 ]

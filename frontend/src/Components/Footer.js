@@ -5,8 +5,8 @@ import './Footer.css';
 class Footer extends Component {
     render() {
         return (
-            <div className="fixed-bottom">  
-                Liam Lightfoot
+            <div className="footer">  
+                Footer Here
             </div>
         );
       }
