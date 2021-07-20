@@ -58,7 +58,8 @@ class Home extends Component {
         <Link
           key={item.id}
           to={{
-            pathname: `/articles/${item.id}`,
+            pathname: `/articles/${item.slug}`,
+            articleID: `${item.id}`
           }}
         >
         {item.title}
