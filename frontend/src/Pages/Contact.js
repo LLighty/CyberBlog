@@ -7,25 +7,25 @@ class Contact extends Component{
     constructor(props) {
         super(props);
         this.state = {
-          name: '',
-          email: '',
-          message: ''
+            name: '',
+            email: '',
+            message: ''
         }
     }
 
     handleSubmit(e){
-        alert("Not currently implemented");
         e.preventDefault();
         axios({
-          method: "POST",
-          url:"http://localhost:8000/send",
-          data:  this.state
+            method: "POST",
+            url:"http://localhost:8000/external/contact/",
+            data:  this.state
         }).then((response)=>{
-          if (response.data.status === 'success') {
-            alert("Message Sent.");
-            this.resetForm();
-          } else if (response.data.status === 'fail') {
-            alert("Message failed to send.");
+            console.log(response.status);
+            if (response.status == '200') {
+                alert("Message Sent.");
+                this.resetForm();
+            } else {
+                alert("Message failed to send.");
           }
         })
     }
