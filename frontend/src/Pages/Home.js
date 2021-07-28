@@ -6,6 +6,7 @@ import {
   Link,
 } from "react-router-dom";
 
+/*
 const articles = [
   {
     title: "test", 
@@ -16,7 +17,7 @@ const articles = [
     created_on: "10/10/10", 
     status: "Published"
   }
-]
+] */
 
 class Home extends Component {
   constructor(props) {

@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import axios from "axios";
 
+import Comments from "../Components/Comments";
 import "./Article.css";
 
 class Article extends Component{
@@ -9,7 +10,8 @@ class Article extends Component{
         super(props);
         this.state = {
           url: "http://localhost:8000/api/articles/"+this.props.location.articleID,
-          articledata: []
+          articledata: [],
+          isLoading: true,
         };
     }
 
@@ -25,7 +27,8 @@ class Article extends Component{
           {
             const articledata = response.data;
             this.setState({
-                articledata
+                articledata,
+                isLoading: false
             });
             console.log(`Article: ${JSON.stringify(articledata)}`);
           }
@@ -89,8 +92,8 @@ class Article extends Component{
 
     render() {
         return(
-            <div class="container">
-                <div class="d-flex justify-content-center title h1">
+            <div className="container">
+                <div className="d-flex justify-content-center title h1">
                   {this.state.articledata.title}
                 </div>
                 <div>
@@ -102,6 +105,8 @@ class Article extends Component{
                   Created on: {this.grabDate(this.state.articledata.created_on)}<br />
                   Edited  on: {this.grabDate(this.state.articledata.updated_on)}
                 </div>
+
+                {this.state.isLoading ? <div>Loading Comments</div> : <Comments slug={this.state.articledata.slug}/>}
             </div>
         );
     }
