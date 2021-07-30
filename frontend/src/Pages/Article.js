@@ -13,6 +13,9 @@ class Article extends Component{
           articledata: [],
           isLoading: true,
         };
+        if(this.props.location.articleID !== undefined){
+          window.sessionStorage.setItem("url" , this.state.url);
+        }
     }
 
     async componentDidMount() {
@@ -21,7 +24,7 @@ class Article extends Component{
     
     async loadArticle() {
         try{
-          const response = await axios.get(this.state.url);
+          const response = await axios.get(window.sessionStorage.getItem("url"));
           const status = response.status;
           if(status===200)
           {
@@ -98,15 +101,13 @@ class Article extends Component{
                 </div>
                 <div>
                   <pre>
-                    {this.state.articledata.content}
+                    {this.state.articledata.content} <br />
+                    Created on: {this.grabDate(this.state.articledata.created_on)}<br />
+                    Edited  on: {this.grabDate(this.state.articledata.updated_on)}
+
+                    {this.state.isLoading ? <div>Loading Comments</div> : <Comments slug={this.state.articledata.slug}/>}
                   </pre>
                 </div>
-                <div>
-                  Created on: {this.grabDate(this.state.articledata.created_on)}<br />
-                  Edited  on: {this.grabDate(this.state.articledata.updated_on)}
-                </div>
-
-                {this.state.isLoading ? <div>Loading Comments</div> : <Comments slug={this.state.articledata.slug}/>}
             </div>
         );
     }

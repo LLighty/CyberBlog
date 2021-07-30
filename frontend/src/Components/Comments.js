@@ -42,8 +42,9 @@ class Comments extends Component {
         //console.log(JSON.stringify(comments));
         return comments.map(item => (
             <div key={item.id} class="d-flex flex-row comment-row m-t-0">
-                <h6 className="font-medium">{item.author}</h6> <span class="m-b-15 d-block">{item.content}</span>
-                <div className="comment-footer"> <span class="text-muted float-right">{item.created_on}</span></div>
+                <div className="m-b-2 m-t-2"><span className="h5">User: {item.author}</span>
+                  <div>{item.content}</div> <span>{item.created_on}</span>
+                </div>
             </div>
         ));
     };

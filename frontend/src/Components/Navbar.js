@@ -18,25 +18,27 @@ class Navbar extends Component {
         return (
           <Router>
             <div>
-              <nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
-                <div class="navbar-brand">Lighty Cyber Blog</div>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarText">
-                  <ul class="navbar-nav">
-                    <li>
-                      <Link class="nav-item nav-link" to="/">Home</Link>
-                    </li>
-                    <li>
-                      <Link class="nav-item nav-link" to="/about">About</Link>
-                    </li>
-                    <li>
-                      <Link class="nav-item nav-link" to="/contact">Contact</Link>
-                    </li>
-                  </ul>
-                </div>
-              </nav>
+              <div>
+                <nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
+                  <div class="navbar-brand">Lighty Cyber Blog</div>
+                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarText">
+                    <ul class="navbar-nav">
+                      <li>
+                        <Link class="nav-item nav-link" to="/">Home</Link>
+                      </li>
+                      <li>
+                        <Link class="nav-item nav-link" to="/about">About</Link>
+                      </li>
+                      <li>
+                        <Link class="nav-item nav-link" to="/contact">Contact</Link>
+                      </li>
+                    </ul>
+                  </div>
+                </nav>
+              </div>
               <div id="container">
                 <div id="left">
                   <Sidebar />

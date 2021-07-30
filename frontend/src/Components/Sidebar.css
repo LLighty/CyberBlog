@@ -1,5 +1,6 @@
 .side-bar{
-    height: 90vh;
+    margin-bottom: -5000px;
+    padding-bottom: 5000px;
     width: 150px;
     background-color: lightblue;
 }
