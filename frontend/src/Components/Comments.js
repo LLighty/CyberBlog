@@ -5,57 +5,117 @@ import './Comments.css';
 import axios from "axios";
 
 class Comments extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          url: "http://localhost:8000/api/" + this.props.slug + "/comment/",
-          commentData: []
-        };
-        console.log(this.props.slug);
-        this.loadComments = this.loadComments.bind(this);
-    }
+  constructor(props) {
+      super(props);
+      this.state = {
+        url: "http://localhost:8000/api/" + this.props.slug + "/comment/",
+        commentData: [],
+        postData: {post: this.props.postID, author: '', content: ''}
+      };
+      console.log(this.props.slug);
+      this.loadComments = this.loadComments.bind(this);
+  }
   
-    async componentDidMount() {
-      this.loadComments();
-    }
+  async componentDidMount() {
+    this.loadComments();
+  }
   
-    async loadComments() {
-      try{
-        console.log(this.state.url);
-        const response = await axios.get(this.state.url);
-        const status = response.status;
-        if(status===200)
-        {
-          const commentData = response.data;
-          this.setState({
-            commentData
-          });
-          //console.log(`Comments: ${JSON.stringify(commentData)}`);
+  async loadComments() {
+    try{
+      console.log(this.state.url);
+      const response = await axios.get(this.state.url);
+      const status = response.status;
+      if(status===200)
+      {
+        const commentData = response.data;
+        this.setState({
+          commentData
+        });
+        //console.log(`Comments: ${JSON.stringify(commentData)}`);
+      }
+    } catch(e) {
+      console.log(`Error: ${e}`);
+    }
+  }
+
+  renderComments = () => {
+      const comments = this.state.commentData;
+      //console.log(JSON.stringify(comments));
+      return comments.map(item => (
+          <div key={item.id} class="d-flex flex-row comment-row m-t-0">
+              <div className="m-b-2 m-t-2"><span className="h5">User: {item.author}</span>
+                <div>{item.content}</div> <span>{item.created_on}</span>
+              </div>
+          </div>
+      ));
+  };
+
+  handleSubmit(e){
+    e.preventDefault();
+    //console.log("Submit Comment");
+    //console.log(this.state.postData);
+    axios({
+        method: "POST",
+        url: this.state.url,
+        data:  this.state.postData
+    }).then((response)=>{
+        //console.log(response.status);
+        if (response.status === 201) {
+            alert("Comment Posted!");
+            this.resetForm();
+        } else {
+            alert("Comment failed to post!");
         }
-      } catch(e) {
-        console.log(`Error: ${e}`);
-      }
-    }
+    }) 
+  }
+  
+  resetForm(){
+      this.setState({
+        postData: {author: '', content: ''}
+      });
+  }
 
-    renderComments = () => {
-        const comments = this.state.commentData;
-        //console.log(JSON.stringify(comments));
-        return comments.map(item => (
-            <div key={item.id} class="d-flex flex-row comment-row m-t-0">
-                <div className="m-b-2 m-t-2"><span className="h5">User: {item.author}</span>
-                  <div>{item.content}</div> <span>{item.created_on}</span>
+  onNameChange(event) {
+    this.setState({
+      postData: {
+        ...this.state.postData,
+        author: event.target.value
+      }}
+    );
+  }
+
+
+  onContentChange(event) {
+    this.setState({
+      postData: {
+        ...this.state.postData,
+        content: event.target.value
+      }
+    });
+  }
+
+  render() {
+      return (
+          <div>
+            <div>
+              {this.renderComments()}
+            </div>
+            <div>
+              <form id="contact-form" onSubmit={this.handleSubmit.bind(this)} method="POST">
+                <div className="form-group">
+                  <label htmlFor="name">Name</label>
+                  <input type="text" className="form-control" id="name" value={this.state.postData.author} onChange={this.onNameChange.bind(this)} />
                 </div>
-            </div>
-        ));
-    };
-
-    render() {
-        return (
-            <div>  
-                {this.renderComments()}
-            </div>
-        );
-      }
+                <div className="form-group">
+                  <label htmlFor="content">Content</label>
+                  <textarea className="form-control" rows="5" id="content" value={this.state.postData.content} onChange={this.onContentChange.bind(this)} />
+                </div>
+                  <button type="submit" className="btn btn-primary">Submit</button>
+              </form>
+            </div> 
+          </div>
+    );
+  }
 }
 
 export default Comments;

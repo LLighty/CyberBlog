@@ -105,9 +105,11 @@ class Article extends Component{
                     Created on: {this.grabDate(this.state.articledata.created_on)}<br />
                     Edited  on: {this.grabDate(this.state.articledata.updated_on)}
 
-                    {this.state.isLoading ? <div>Loading Comments</div> : <Comments slug={this.state.articledata.slug}/>}
+                    {this.state.isLoading ? <div>Loading Comments</div> : <Comments slug={this.state.articledata.slug} postID={this.state.articledata.id}/>}
                   </pre>
                 </div>
+
+                
             </div>
         );
     }
