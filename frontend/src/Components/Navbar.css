@@ -1,5 +1,6 @@
 #container{
     width:100%;
+    min-height: 90vh; 
     overflow: hidden; 
 }
 #left{float:left;width:150px;}
