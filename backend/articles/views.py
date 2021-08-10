@@ -5,13 +5,19 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny
 from .serializers import PostSerializer, CommentSerializer
-from .models import Post, Comment
+from .models import Post, Comment, Tags
 
 # Create your views here.
 
 class PostView(viewsets.ModelViewSet):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def find_tag_posts(tag):
+    serializer_class = PostSerializer
+    queryset = Post.objects.filter(Tags=tag)
 
 @api_view(['GET','POST'])
 @permission_classes([AllowAny])

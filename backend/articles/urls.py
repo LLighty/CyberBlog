@@ -9,4 +9,5 @@ router.register(r'articles', views.PostView, 'article')
 urlpatterns = [
     path('', include(router.urls)),
     path('<slug>/comment/', views.comment_post_api),
+    path('<tag>/', views.find_tag_posts)
 ]
