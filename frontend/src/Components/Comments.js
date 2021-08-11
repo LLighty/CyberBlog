@@ -12,7 +12,7 @@ class Comments extends Component {
         commentData: [],
         postData: {post: this.props.postID, author: '', content: ''}
       };
-      console.log(this.props.slug);
+      //console.log(this.props.slug);
       this.loadComments = this.loadComments.bind(this);
   }
   

@@ -33,7 +33,7 @@ class Article extends Component{
                 articledata,
                 isLoading: false
             });
-            console.log(`Article: ${JSON.stringify(articledata)}`);
+            //console.log(`Article: ${JSON.stringify(articledata)}`);
           }
         } catch(e) {
           console.log(`Error: ${e}`);

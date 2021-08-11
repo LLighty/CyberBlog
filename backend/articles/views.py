@@ -15,9 +15,14 @@ class PostView(viewsets.ModelViewSet):
 
 @api_view(['GET'])
 @permission_classes([AllowAny])
-def find_tag_posts(tag):
-    serializer_class = PostSerializer
-    queryset = Post.objects.filter(Tags=tag)
+def find_tag_posts(request, slug):
+    try:
+        tag = get_object_or_404(Tags, slug=slug)
+    except Tags.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    articles = Post.objects.filter(tags=tag)
+    serializer= PostSerializer(articles, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET','POST'])
 @permission_classes([AllowAny])

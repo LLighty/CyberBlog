@@ -12,7 +12,10 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ('post', )
     search_fields = ['post', 'created_on']
 
+class TagAdmin(admin.ModelAdmin):
+    list_display= ('tag', 'slug')
+    prepopulated_fields = {'slug': ('tag',)}
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(Comment, CommentAdmin)
-admin.site.register(Tags)
+admin.site.register(Tags, TagAdmin)
