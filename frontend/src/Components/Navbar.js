@@ -13,13 +13,30 @@ import Sidebar from "./Sidebar";
 import Article from "../Pages/Article";
 import TagSearch from "../Pages/TagSearch";
 import "./Navbar.css";
+import Login from "../Pages/Login";
 
 class Navbar extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loggedIn: false
+    };
+    var authToUpdate = this.authToUpdate.bind(this);
+    //console.log(this.props.slug);
+}
+
+authToUpdate(arg){
+  this.setState({
+    loggedIn: arg
+  });
+}
+
     render() {
+      var authToUpdate = this.authToUpdate;
         return (
           <Router>
             <div>
-              <div>
+              <div class="full-width">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
                   <div class="navbar-brand">Cyber Blog</div>
                   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -36,6 +53,7 @@ class Navbar extends Component {
                       <li>
                         <Link class="nav-item nav-link" to="/contact">Contact</Link>
                       </li>
+                      {this.state.loggedIn ? <li class="nav-item nav-link">You are logged in</li> : <li> <Link class="nav-item nav-link" to="/login">Login</Link></li>}
                     </ul>
                   </div>
                 </nav>
@@ -51,6 +69,9 @@ class Navbar extends Component {
                     </Route>
                     <Route path="/contact">
                       <Contact />
+                    </Route>
+                    <Route path="/login">
+                      <Login authToUpdate = {authToUpdate.bind(this)} />
                     </Route>
                     <Route path="/articles/tag/:tagid" component={TagSearch} />
                     <Route path="/articles/:articleid" component={Article} />

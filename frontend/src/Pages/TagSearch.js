@@ -26,7 +26,8 @@ class TagSearch extends Component {
     this.loadArticles();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
+    //this.state.value !== prevState.value
     if (prevProps.location.tag !== this.props.location.tag) {
       console.log("Test");
       this.setState({
@@ -45,7 +46,6 @@ class TagSearch extends Component {
   async loadArticles() {
     try{
       //console.log(window.sessionStorage.getItem("url"));
-      console.log(this.state.url);
       const response = await axios.get(window.sessionStorage.getItem("url"));
       const status = response.status;
       if(status===200)
