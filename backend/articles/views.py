@@ -3,8 +3,8 @@ from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import AllowAny
-from .serializers import PostSerializer, CommentSerializer
+from rest_framework.permissions import AllowAny, IsAuthenticated, SAFE_METHODS
+from .serializers import PostSerializer, CommentSerializer, TagSerializer
 from .models import Post, Comment, Tags
 
 # Create your views here.
@@ -12,6 +12,20 @@ from .models import Post, Comment, Tags
 class PostView(viewsets.ModelViewSet):
     serializer_class = PostSerializer
     queryset = Post.objects.all()
+
+    def get_permissions(self):
+        if self.request.method in SAFE_METHODS:
+            return (AllowAny(),)
+        return (IsAuthenticated(),)
+
+class TagView(viewsets.ModelViewSet):
+    serializer_class = TagSerializer
+    queryset = Tags.objects.all()
+
+    def get_permissions(self):
+        if self.request.method in SAFE_METHODS:
+            return (AllowAny(),)
+        return (IsAuthenticated(),)
 
 @api_view(['GET'])
 @permission_classes([AllowAny])

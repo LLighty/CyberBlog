@@ -5,6 +5,7 @@ from articles import views
 
 router = DefaultRouter()
 router.register(r'articles', views.PostView, 'article')
+router.register(r'tags', views.TagView, 'tags')
 
 urlpatterns = [
     path('', include(router.urls)),

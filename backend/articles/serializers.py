@@ -1,5 +1,6 @@
+from django.db import models
 from rest_framework import serializers
-from .models import Post, Comment
+from .models import Post, Comment, Tags
 
 class PostSerializer(serializers.ModelSerializer):
     class Meta:
@@ -10,3 +11,8 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ('id', 'post','author','content', 'created_on')
+
+class TagSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tags
+        fields = '__all__'
