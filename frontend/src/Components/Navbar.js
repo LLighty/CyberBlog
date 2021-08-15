@@ -14,6 +14,7 @@ import Article from "../Pages/Article";
 import TagSearch from "../Pages/TagSearch";
 import "./Navbar.css";
 import Login from "../Pages/Login";
+import axios from "axios";
 
 class Navbar extends Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class Navbar extends Component {
       loggedIn: false
     };
     var authToUpdate = this.authToUpdate.bind(this);
+    this.logout = this.logout.bind(this);
     //console.log(this.props.slug);
 }
 
@@ -31,60 +33,79 @@ authToUpdate(arg){
   });
 }
 
-    render() {
-      var authToUpdate = this.authToUpdate;
-        return (
-          <Router>
-            <div>
-              <div class="full-width">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
-                  <div class="navbar-brand">Cyber Blog</div>
-                  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                  </button>
-                  <div class="collapse navbar-collapse" id="navbarText">
-                    <ul class="navbar-nav">
-                      <li>
-                        <Link class="nav-item nav-link" to="/">Home</Link>
-                      </li>
-                      <li>
-                        <Link class="nav-item nav-link" to="/about">About</Link>
-                      </li>
-                      <li>
-                        <Link class="nav-item nav-link" to="/contact">Contact</Link>
-                      </li>
-                      {this.state.loggedIn ? <li class="nav-item nav-link">You are logged in</li> : <li> <Link class="nav-item nav-link" to="/login">Login</Link></li>}
-                    </ul>
-                  </div>
-                </nav>
-              </div>
-              <div id="container">
-                <div id="left">
-                  <Sidebar />
-                </div>
-                <div id="right">
-                  <Switch>
-                    <Route path="/about">
-                      <About />
-                    </Route>
-                    <Route path="/contact">
-                      <Contact />
-                    </Route>
-                    <Route path="/login">
-                      <Login authToUpdate = {authToUpdate.bind(this)} />
-                    </Route>
-                    <Route path="/articles/tag/:tagid" component={TagSearch} />
-                    <Route path="/articles/:articleid" component={Article} />
-                    <Route path="/"> 
-                      <Home />
-                    </Route>
-                  </Switch>
-                </div>
-              </div>
-            </div>
-          </Router>
-        );
+logout(){
+  axios({
+    method: "POST",
+    url:"http://localhost:8000/rest-auth/logout/",
+    data:  this.state
+  }).then((response)=>{
+      console.log(response.status);
+      if (response.status == '200') {
+          alert("Logout Successful.");
+          //console.log(response.data.key);
+          localStorage.removeItem('token');
+          this.authToUpdate(false);
       }
+  }).catch((error) => {
+      console.log(error);
+  })
+}
+
+render() {
+  var authToUpdate = this.authToUpdate;
+    return (
+      <Router>
+        <div>
+          <div class="full-width">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light py-3">
+              <div class="navbar-brand">Cyber Blog</div>
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav">
+                  <li>
+                    <Link class="nav-item nav-link" to="/">Home</Link>
+                  </li>
+                  <li>
+                    <Link class="nav-item nav-link" to="/about">About</Link>
+                  </li>
+                  <li>
+                    <Link class="nav-item nav-link" to="/contact">Contact</Link>
+                  </li>
+                  {this.state.loggedIn ? <li class="nav-item nav-link">You are logged in</li> : <li> <Link class="nav-item nav-link" to="/login">Login</Link></li>}
+                  {this.state.loggedIn ? <li class="nav-item nav-link"><button class="bg-transparent border-0" onClick={this.logout}>Logout</button></li> : null}
+                </ul>
+              </div>
+            </nav>
+          </div>
+          <div id="container">
+            <div id="left">
+              <Sidebar />
+            </div>
+            <div id="right">
+              <Switch>
+                <Route path="/about">
+                  <About />
+                </Route>
+                <Route path="/contact">
+                  <Contact />
+                </Route>
+                <Route path="/login">
+                  <Login authToUpdate = {authToUpdate.bind(this)}/>
+                </Route>
+                <Route path="/articles/tag/:tagid" component={TagSearch} />
+                <Route path="/articles/:articleid" component={Article} />
+                <Route path="/"> 
+                  <Home />
+                </Route>
+              </Switch>
+            </div>
+          </div>
+        </div>
+      </Router>
+    );
+  }
 }
 
 export default Navbar;

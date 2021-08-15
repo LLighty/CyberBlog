@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
+import { useHistory } from "react-router-dom";
 
 import axios from "axios";
 
@@ -29,6 +30,7 @@ class Login extends Component{
             }
         }).catch((error) => {
             alert("Unable to login with provided credentials.");
+            console.log(error);
         })
     }
     
