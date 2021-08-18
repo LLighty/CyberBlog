@@ -1,6 +1,7 @@
 from django.shortcuts import get_object_or_404, render
 from rest_framework import viewsets
 from rest_framework import status
+from rest_framework import response
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import AllowAny, IsAuthenticated, SAFE_METHODS
@@ -17,6 +18,14 @@ class PostView(viewsets.ModelViewSet):
         if self.request.method in SAFE_METHODS:
             return (AllowAny(),)
         return (IsAuthenticated(),)
+    
+    def post(self, request):
+        print(request.data)
+        serializer = PostSerializer(data=request.data)
+        if(serializer.is_valid()):
+            serializer.save(author=self.request.user)
+            return Response(status.status.HTTP_201_CREATED)
+        return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class TagView(viewsets.ModelViewSet):
     serializer_class = TagSerializer

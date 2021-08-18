@@ -3,7 +3,8 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  Redirect
 } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.css';
 import About from "../Pages/About";
@@ -15,6 +16,7 @@ import TagSearch from "../Pages/TagSearch";
 import "./Navbar.css";
 import Login from "../Pages/Login";
 import axios from "axios";
+import CreateArticle from "../Pages/CreateArticle";
 
 class Navbar extends Component {
   constructor(props) {
@@ -44,6 +46,7 @@ logout(){
           alert("Logout Successful.");
           //console.log(response.data.key);
           localStorage.removeItem('token');
+          localStorage.removeItem('loggedIn');
           this.authToUpdate(false);
       }
   }).catch((error) => {
@@ -73,8 +76,9 @@ render() {
                   <li>
                     <Link class="nav-item nav-link" to="/contact">Contact</Link>
                   </li>
-                  {this.state.loggedIn ? <li class="nav-item nav-link">You are logged in</li> : <li> <Link class="nav-item nav-link" to="/login">Login</Link></li>}
-                  {this.state.loggedIn ? <li class="nav-item nav-link"><button class="bg-transparent border-0" onClick={this.logout}>Logout</button></li> : null}
+                  {this.state.loggedIn || localStorage.getItem('loggedIn') ? <li class="nav-item nav-link">You are logged in</li> : <li><Link class="nav-item nav-link" to="/login">Login</Link></li>}
+                  {this.state.loggedIn || localStorage.getItem('loggedIn') ? <li class="nav-item nav-link"><button class="bg-transparent border-0" onClick={this.logout}>Logout</button></li> : null}
+                  {this.state.loggedIn || localStorage.getItem('loggedIn') ? <li><Link class="nav-item nav-link" to="/create-article">Create Article</Link></li> : null}
                 </ul>
               </div>
             </nav>
@@ -94,6 +98,12 @@ render() {
                 <Route path="/login">
                   <Login authToUpdate = {authToUpdate.bind(this)}/>
                 </Route>
+                <Route 
+                  path="/create-article" 
+                  render={() => localStorage.getItem('loggedIn') ?
+                    <CreateArticle /> :
+                    <Redirect to="/login" />
+                }/>
                 <Route path="/articles/tag/:tagid" component={TagSearch} />
                 <Route path="/articles/:articleid" component={Article} />
                 <Route path="/"> 

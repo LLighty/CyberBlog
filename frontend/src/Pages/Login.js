@@ -25,6 +25,7 @@ class Login extends Component{
                 alert("Login Successful.");
                 //console.log(response.data.key);
                 localStorage.setItem('token', response.data.key);
+                localStorage.setItem('loggedIn', true)
                 this.props.authToUpdate(true);
                 this.resetForm();
             }
@@ -58,7 +59,7 @@ class Login extends Component{
                                 </div>
                                 <div className="form-group">
                                     <label htmlFor="password">Password</label>
-                                    <input type="text" className="form-control" id="password" value={this.state.password} onChange={this.onPasswordChange.bind(this)} />
+                                    <input type="password" className="form-control" id="password" value={this.state.password} onChange={this.onPasswordChange.bind(this)} />
                                 </div>
                                 <button type="submit" className="btn btn-primary">Login</button>
                             </form>

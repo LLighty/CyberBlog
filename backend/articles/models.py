@@ -27,7 +27,7 @@ class Post(models.Model):
     content = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
-    tags = models.ManyToManyField(Tags, related_name='tags')
+    tags = models.ManyToManyField(Tags, related_name='tags', blank=True)
 
     class Meta:
         ordering = ['-created_on']
