@@ -25,7 +25,7 @@ class Login extends Component{
                 alert("Login Successful.");
                 //console.log(response.data.key);
                 localStorage.setItem('token', response.data.key);
-                localStorage.setItem('loggedIn', true)
+                localStorage.setItem('loggedIn', true);
                 this.props.authToUpdate(true);
                 this.resetForm();
             }

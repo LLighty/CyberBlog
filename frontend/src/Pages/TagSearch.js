@@ -84,11 +84,32 @@ class TagSearch extends Component {
           >
           {item.title}
           </Link>
+          {localStorage.getItem('loggedIn') ? <button value={`/articles/${item.id}`} onClick={() => this.deleteArticle(`/articles/${item.id}`)}>Delete</button> : null}
         </li>
       ));
     }
     return <div>Could not find any articles with that tag.</div>
   };
+
+  deleteArticle(article){
+    //console.log("http://localhost:8000/api" + article);
+    axios({
+        method: "DELETE",
+        url:"http://localhost:8000/api" + article,
+        headers: {
+          authorization:`Token ${localStorage.getItem("token")}`
+      }
+    }).then((response)=>{
+        console.log(response.status);
+        if (response.status == '200' || response.status == '204') {
+            alert("Deletion Successful.");
+            this.loadArticles();
+        }
+    }).catch((error) => {
+        alert("Unable delete article with credentials provided.");
+        console.log(error);
+    })
+  }
 
   render() {
     return (
