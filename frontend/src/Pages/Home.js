@@ -66,6 +66,10 @@ class Home extends Component {
         >
         {item.title}
         </Link>
+        {localStorage.getItem('loggedIn') ? <Link to={{
+                                              pathname: `/articles/edit/${item.slug}`,
+                                              articleID: `${item.id}`
+                                            }}><button type="button">Edit</button></Link> : null}
         {localStorage.getItem('loggedIn') ? <button value={`/articles/${item.id}`} onClick={() => this.deleteArticle(`/articles/${item.id}`)}>Delete</button> : null}
       </li>
     ));

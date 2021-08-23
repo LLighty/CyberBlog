@@ -17,6 +17,7 @@ import "./Navbar.css";
 import Login from "../Pages/Login";
 import axios from "axios";
 import CreateArticle from "../Pages/CreateArticle";
+import EditArticle from "../Pages/EditArticle";
 
 class Navbar extends Component {
   constructor(props) {
@@ -105,6 +106,7 @@ render() {
                     <Redirect to="/login" />
                 }/>
                 <Route path="/articles/tag/:tagid" component={TagSearch} />
+                <Route path="/articles/edit/:articleid" component={EditArticle} />
                 <Route path="/articles/:articleid" component={Article} />
                 <Route path="/"> 
                   <Home />

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 import axios from "axios";
 
-class CreateArticle extends Component{
+class EditArticle extends Component{
     constructor(props) {
         super(props);
         this.state = {
@@ -13,8 +13,13 @@ class CreateArticle extends Component{
             status: 0,
             tags: '',
             allowedTags : [],
-            loadedTags: false
+            loadedTags: false,
+            articleID: null
         }
+        if(this.props.location.articleID !== undefined){
+            window.sessionStorage.setItem("editing" , "http://localhost:8000/api/articles/"+this.props.location.articleID);
+        }
+
         this.setSlug = this.setSlug.bind(this);
         this.changeStatus = this.changeStatus.bind(this);
         this.changeTags = this.changeTags.bind(this);
@@ -23,6 +28,7 @@ class CreateArticle extends Component{
 
     async componentDidMount() {
         this.loadTags();
+        this.loadArticleInfo();
     }
     
     async loadTags() {
@@ -43,6 +49,26 @@ class CreateArticle extends Component{
         }
     }
 
+    async loadArticleInfo(){
+        try{
+            const response = await axios.get(window.sessionStorage.getItem("editing"));
+            const status = response.status;
+            if(status===200)
+            {
+              const articledata = response.data;
+              this.setState({
+                  title: articledata.title,
+                  slug: articledata.slug,
+                  content: articledata.content,
+                  status: articledata.status,
+                  tags: articledata.tags
+              });
+            }
+          } catch(e) {
+            console.log(`Error: ${e}`);
+        }
+    }
+
     //('title', 'slug', 'content', 'status', 'tags')
     getPostData(){
         var dataToReturn = {
@@ -57,37 +83,31 @@ class CreateArticle extends Component{
 
     handleSubmit(e){
         e.preventDefault();
-        console.log(this.getPostData());
         axios({
-            method: "POST",
-            url:"http://localhost:8000/api/articles/",
+            method: "PATCH",
+            url: window.sessionStorage.getItem("editing") + '/',
             data: this.getPostData(),
             headers: {
                 authorization:`Token ${localStorage.getItem("token")}`
             }
         }).then((response)=>{
             console.log(response.status);
-            if (response.status == '201') {
-                alert("Article Created Successfully");
-                this.resetForm();
+            if (response.status == '200') {
+                alert("Article has been updated");
             } else {
-                alert("Article Failed to Create");
+                alert("Article Failed to Update");
           }
         }).catch((error) => {
-            alert("Error creating article");
+            alert("Error editing article");
             console.log(error);
         })
-    }
-    
-    resetForm(){
-        this.setState({title: '', slug: '', author: '', content: '', status: '', tags: ''});
     }
 
     render() {
         return(
             <div class="container">
                 <div class="d-flex justify-content-center title h1">
-                  Create an Article
+                  Edit an Article
                 </div>
                 <div>
                     <div class="row">
@@ -129,7 +149,6 @@ class CreateArticle extends Component{
         for(var i = 0; i < this.state.allowedTags.length; i++){
             options.push(<option key={i} value={this.state.allowedTags[i].tag}>{this.state.allowedTags[i].tag}</option>);
         }
-        //console.log(options.map(option => <option value={option}>{option}</option>));
         return options;
     }
 
@@ -158,4 +177,4 @@ class CreateArticle extends Component{
     }
 }
 
-export default CreateArticle;
+export default EditArticle;
