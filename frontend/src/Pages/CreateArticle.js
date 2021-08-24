@@ -13,8 +13,10 @@ class CreateArticle extends Component{
             status: 0,
             tags: '',
             allowedTags : [],
-            loadedTags: false
+            loadedTags: false,
+            newTag: ''
         }
+        this.getSlug = this.getSlug.bind(this);
         this.setSlug = this.setSlug.bind(this);
         this.changeStatus = this.changeStatus.bind(this);
         this.changeTags = this.changeTags.bind(this);
@@ -78,6 +80,34 @@ class CreateArticle extends Component{
             console.log(error);
         })
     }
+
+    handleNewTag(e){
+        e.preventDefault();
+        var tagData = {
+            tag: this.state.newTag,
+            slug: this.getSlug(this.state.newTag)
+        };
+        axios({
+            method: "POST",
+            url:"http://localhost:8000/api/tags/",
+            data: tagData,
+            headers: {
+                authorization:`Token ${localStorage.getItem("token")}`
+            }
+        }).then((response)=>{
+            console.log(response.status);
+            if (response.status == '201') {
+                alert("Tag Created Successfully");
+                this.setState({newTag: ''});
+                this.loadTags();
+            } else {
+                alert("Tag Failed to Create");
+          }
+        }).catch((error) => {
+            alert("Error creating Tag");
+            console.log(error);
+        })
+    }
     
     resetForm(){
         this.setState({title: '', slug: '', author: '', content: '', status: '', tags: ''});
@@ -116,6 +146,13 @@ class CreateArticle extends Component{
                                 </div>
                                 <button type="submit" className="btn btn-primary">Submit</button>
                             </form>
+                            <form id="tags-form" onSubmit={this.handleNewTag.bind(this)} method="POST">
+                                <div className="form-group">
+                                    <label htmlFor="new-tag">New Tag</label>
+                                    <input type="text" className="form-control" id="new-tag-val" value={this.state.newTag} onChange={this.onNewTagChange.bind(this)} required/>
+                                </div>
+                                <button type="submit" className="btn btn-primary">Create New Tag</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -141,6 +178,12 @@ class CreateArticle extends Component{
         this.setState({tags: event.target.value});
     }
 
+    getSlug(text){
+        text = text.toLowerCase();
+        text = text.replaceAll(" ", "-");
+        return text;
+    }
+
     setSlug(){
         var title = this.state.title;
         title = title.toLowerCase();
@@ -155,6 +198,10 @@ class CreateArticle extends Component{
   
     onContentChange(event) {
         this.setState({content: event.target.value});
+    }
+
+    onNewTagChange(event){
+        this.setState({newTag: event.target.value});
     }
 }
 

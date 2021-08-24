@@ -106,7 +106,11 @@ render() {
                     <Redirect to="/login" />
                 }/>
                 <Route path="/articles/tag/:tagid" component={TagSearch} />
-                <Route path="/articles/edit/:articleid" component={EditArticle} />
+                <Route path="/articles/edit/:articleid" 
+                  render={() => localStorage.getItem('loggedIn') ?
+                    <EditArticle /> :
+                    <Redirect to="/login" />
+                }/>
                 <Route path="/articles/:articleid" component={Article} />
                 <Route path="/"> 
                   <Home />
@@ -121,13 +125,3 @@ render() {
 }
 
 export default Navbar;
-
-/* <li class="nav-item">
-                      <Link to="/">Home</Link>
-                    </li>
-                    <li class="nav-item">
-                      <Link to="/about">About</Link>
-                    </li>
-                    <li class="nav-item">
-                      <Link to="/contact">Contact</Link>
-                    </li> */
