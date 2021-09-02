@@ -65,7 +65,9 @@ class Home extends Component {
         >
         {item.title}
         </Link>
-        {localStorage.getItem('loggedIn') ? <Link to={{
+        {localStorage.getItem('loggedIn') ? <Link
+                                            key={`edit ${item.id}`} 
+                                            to={{
                                               pathname: `/articles/edit/${item.slug}`,
                                               articleID: `${item.id}`
                                             }}><button type="button">Edit</button></Link> : null}

@@ -27,6 +27,15 @@ class TagView(viewsets.ModelViewSet):
             return (AllowAny(),)
         return (IsAuthenticated(),)
 
+class CommentView(viewsets.ModelViewSet):
+    serializer_class = CommentSerializer
+    queryset = Comment.objects.all()
+
+    def get_permissions(self):
+        if self.request.method in SAFE_METHODS:
+            return (AllowAny(),)
+        return (IsAuthenticated(),)
+
 @api_view(['GET'])
 @permission_classes([AllowAny])
 def find_tag_posts(request, slug):

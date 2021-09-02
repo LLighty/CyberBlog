@@ -46,9 +46,32 @@ class Comments extends Component {
               <div className="m-b-2 m-t-2"><span className="h5">User: {item.author}</span>
                 <div>{item.content}</div> <span>{item.created_on}</span>
               </div>
+              <div className="m-b-2 m-t-2">
+                {localStorage.getItem('loggedIn') ? <div><button value={`/comments/${item.id}`} onClick={() => this.deleteComment(`/comments/${item.id}`)}>Delete</button></div> : null}
+              </div>
           </div>
       ));
   };
+
+  deleteComment(comment){
+    //console.log("http://localhost:8000/api" + commentID);
+    axios({
+      method: "DELETE",
+      url:"http://localhost:8000/api" + comment,
+      headers: {
+        authorization:`Token ${localStorage.getItem("token")}`
+    }
+    }).then((response)=>{
+        console.log(response.status);
+        if (response.status == '200' || response.status == '204') {
+            alert("Deletion Successful.");
+            this.loadComments();
+        }
+    }).catch((error) => {
+        alert("Unable delete article with credentials provided.");
+        console.log(error);
+    })
+  }
 
   handleSubmit(e){
     e.preventDefault();
@@ -62,6 +85,7 @@ class Comments extends Component {
         //console.log(response.status);
         if (response.status === 201) {
             alert("Comment Posted!");
+            this.loadComments();
             this.resetForm();
         } else {
             alert("Comment failed to post!");

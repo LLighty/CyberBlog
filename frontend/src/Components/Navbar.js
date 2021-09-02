@@ -106,11 +106,8 @@ render() {
                     <Redirect to="/login" />
                 }/>
                 <Route path="/articles/tag/:tagid" component={TagSearch} />
-                <Route path="/articles/edit/:articleid" 
-                  render={() => localStorage.getItem('loggedIn') ?
-                    <EditArticle /> :
-                    <Redirect to="/login" />
-                }/>
+                <Route path="/articles/edit/:article" component={EditArticle}>
+                </Route>
                 <Route path="/articles/:articleid" component={Article} />
                 <Route path="/"> 
                   <Home />

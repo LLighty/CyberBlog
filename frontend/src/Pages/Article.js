@@ -108,8 +108,6 @@ class Article extends Component{
                     {this.state.isLoading ? <div>Loading Comments</div> : <Comments slug={this.state.articledata.slug} postID={this.state.articledata.id}/>}
                   </pre>
                 </div>
-
-                
             </div>
         );
     }
