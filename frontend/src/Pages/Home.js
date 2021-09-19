@@ -91,7 +91,7 @@ class Home extends Component {
             this.loadArticles();
         }
     }).catch((error) => {
-        alert("Unable delete article with credentials provided.");
+        alert("Unable to delete the article with the credentials provided.");
         console.log(error);
     })
   }

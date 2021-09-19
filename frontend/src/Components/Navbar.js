@@ -6,6 +6,8 @@ import {
   Link,
   Redirect
 } from "react-router-dom";
+import "jquery/dist/jquery"
+import "bootstrap/dist/js/bootstrap.js";
 import 'bootstrap/dist/css/bootstrap.css';
 import About from "../Pages/About";
 import Contact from "../Pages/Contact";
